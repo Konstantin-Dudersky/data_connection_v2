@@ -1,0 +1,57 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 80
+
+
+[tool.poe.tasks.update_stubs]
+shell = """rm -rf .venv/typings \
+&& pyright --createstub async_state_machine
+"""
+
+
+[tool.poetry]
+name = "data-connection"
+version = "0.0.1"
+description = ""
+authors = ["Konstantin.Dudersky <konstantin.dudersky@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "data_connection" }]
+
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+
+async_state_machine = { path = "../../async-state-machine/async_state_machine", develop = true }
+loguru = "^0.6.0"
+pydantic = "^1.10.7"
+redis = "^4.5.4"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+poethepoet = "*"
+pytest = "*"
+
+
+[tool.poetry.scripts]
+test = "tests.test_redis:test_redis"
+
+
+[tool.pyright]
+pythonPlatform = "Linux"
+pythonVersion = "3.11"
+reportUnnecessaryTypeIgnoreComment = true
+stubPath = '.venv/typings/'
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+log_format = "%(levelname)s: %(asctime)s.%(msecs)03d | %(name)s:%(lineno)d - %(funcName)s\n-> %(message)s"
+log_date_format = "%H:%M:%S"
