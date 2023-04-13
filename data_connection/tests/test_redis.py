@@ -1,4 +1,5 @@
 import asyncio
+import random
 from uuid import UUID
 
 from copy import deepcopy
@@ -23,19 +24,26 @@ def test_redis():
 
     redis1 = RedisSync(
         datapoints_collection=dpc1,
-        host=IPv4Address("192.168.101.12"),
+        host=IPv4Address("192.168.101.52"),
     )
     redis2 = RedisSync(
         datapoints_collection=dpc2,
-        host=IPv4Address("192.168.101.12"),
+        host=IPv4Address("192.168.101.52"),
     )
 
     async def autoprogram():
-        dp1.value = 123
-        await asyncio.sleep(5.0)
-        print("StopTestError")
+        random_int = random.randint(0, 1000000)
+        time_step = 0.1
+        timeout = 5
+        dp1.value = random_int
+        while timeout > 0:
+            await asyncio.sleep(time_step)
+            timeout -= time_step
+            if dp2.value == random_int:
+                break
+        else:
+            assert dp2.value == random_int
         raise StopTestError
-        assert dp2.value == 123
 
     async def run():
         async with asyncio.TaskGroup() as tg:
@@ -43,10 +51,7 @@ def test_redis():
             tg.create_task(redis2.run())
             tg.create_task(autoprogram())
 
-    try:
-        asyncio.run(run(), debug=True)
-    except* StopTestError:
-        pass
+    asyncio.run(run(), debug=True)
 
 
 def test_asyncio():
