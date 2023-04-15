@@ -1,0 +1,33 @@
+[flake8]
+exclude =
+    tests/,
+    */migrations/,
+    .venv/,
+    env/
+ignore =
+	D102, # Missing docstring in public method
+    D301, # Use r""" if any backslashes in a docstring
+    E203, # whitespace before ':'
+    I001, # isort found an import in the wrong position TODO
+    I005, # isort found an unexpected missing import TODO
+    S104, # Possible binding to all interfaces.
+    W503, # line break before binary operator
+    WPS112,#  Found private name pattern
+    WPS114, # Found underscored number name pattern
+    WPS300, # Found local folder import
+    WPS348, # Found a line that starts with a dot
+    WPS410, # Found wrong metadata variable: __all__
+    WPS412, # Found `__init__.py` module with logic
+inline-quotes = double
+max-arguments = 10
+max-complexity = 10
+max-line-length = 80
+multi-line-output-modes = 3
+nested-classes-whitelist = Config
+per-file-ignores =
+    tests/*:B,D,E,I,N,S,WPS
+statistics = true
+
+# darglint
+docstring_style = numpy
+strictness = long

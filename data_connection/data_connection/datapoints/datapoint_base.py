@@ -135,6 +135,10 @@ class DatapointBase(abc.ABC, Generic[TDatapoint]):
     def json_model(self) -> Type[BaseModel]:
         return self.__json_model
 
+    @property
+    def uuid(self) -> UUID:
+        return self.__uuid
+
     @classmethod
     @abc.abstractmethod
     def _set_default_value(cls, value: TDatapoint | None) -> TDatapoint:

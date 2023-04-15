@@ -15,7 +15,7 @@ shell = """rm -rf .venv/typings \
 
 [tool.poetry]
 name = "data-connection"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["Konstantin.Dudersky <konstantin.dudersky@gmail.com>"]
 readme = "README.md"
@@ -25,7 +25,7 @@ packages = [{ include = "data_connection" }]
 [tool.poetry.dependencies]
 python = "3.11.*"
 
-async_state_machine = { path = "../../async-state-machine/async_state_machine", develop = true }
+async_state_machine = "0.0.4"
 loguru = "^0.6.0"
 pydantic = "^1.10.7"
 redis = "^4.5.4"
@@ -35,6 +35,7 @@ redis = "^4.5.4"
 black = "*"
 poethepoet = "*"
 pytest = "*"
+wemake-python-styleguide = "0.17.0"
 
 
 [tool.poetry.scripts]
