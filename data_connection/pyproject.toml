@@ -15,7 +15,7 @@ shell = """rm -rf .venv/typings \
 
 [tool.poetry]
 name = "data-connection"
-version = "0.0.2"
+version = "0.0.1"
 description = ""
 authors = ["Konstantin.Dudersky <konstantin.dudersky@gmail.com>"]
 readme = "README.md"

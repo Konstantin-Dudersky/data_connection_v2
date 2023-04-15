@@ -4,7 +4,7 @@ import abc
 import datetime as dt
 from copy import deepcopy
 from enum import StrEnum
-from typing import Any, Generic, Literal, Self, Type, TypeAlias, TypeVar
+from typing import Any, Final, Generic, Literal, Self, Type, TypeAlias, TypeVar
 from uuid import UUID
 
 from loguru import logger
@@ -13,6 +13,8 @@ from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
 TDatapoint = TypeVar("TDatapoint", bound=bool | float | int | str)
+
+EXC_DUPL_KEY: Final[str] = "Ключ {0} уже есть в коллекции datapoints_collection"
 
 
 class Access(StrEnum):
@@ -80,11 +82,7 @@ class DatapointBase(abc.ABC, Generic[TDatapoint]):
         self.__json_model = DatapointBaseModel[TDatapoint]
         if add_to_collection:
             if self.__uuid in datapoints_collection:
-                raise KeyError(
-                    "Ключ {0} уже есть в коллекции datapoints_collection".format(
-                        self.__uuid
-                    )
-                )
+                raise KeyError(EXC_DUPL_KEY.format(self.__uuid))
             datapoints_collection[self.__uuid] = self
 
     def __init_subclass__(cls) -> None:
@@ -202,8 +200,8 @@ def define_class(class_name: str) -> Type[DatapointBase[Any]]:
     try:
         return _datapoints_classes[class_name]
     except KeyError:
-        msg = "В словаре datapoints_dict нет записи для класса {1}".format(
-            class_name
+        msg = "В словаре datapoints_dict нет записи для класса {0}".format(
+            class_name,
         )
         logger.exception(msg)
         raise
