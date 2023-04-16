@@ -192,11 +192,11 @@ class DatapointBase(abc.ABC, Generic[TDatapoint]):
 _datapoints_classes: dict[str, Type[DatapointBase[Any]]] = {}
 
 
-def define_class_name(json: str) -> str:
+def _define_class_name(json: str) -> str:
     return DatapointClass.parse_raw(json).class_name
 
 
-def define_class(class_name: str) -> Type[DatapointBase[Any]]:
+def _define_class(class_name: str) -> Type[DatapointBase[Any]]:
     try:
         return _datapoints_classes[class_name]
     except KeyError:
@@ -208,8 +208,8 @@ def define_class(class_name: str) -> Type[DatapointBase[Any]]:
 
 
 def parse_datapoint_json(json: str) -> DatapointBase[Any]:
-    class_name = define_class_name(json)
-    class_ = define_class(class_name)
+    class_name = _define_class_name(json)
+    class_ = _define_class(class_name)
     return class_.from_json(json)
 
 

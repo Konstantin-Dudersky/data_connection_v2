@@ -1,19 +1,39 @@
 from uuid import UUID
 
-from data_connection.datapoints import DatapointBool, datapoints_collection
+from data_connection.datapoints import (
+    DatapointBool,
+    DatapointInt,
+    DatapointFloat,
+    DatapointStr,
+    datapoints_collection,
+)
 
 from data_connection.datapoints.datapoint_base import (
-    define_class_name,
+    _define_class_name,  # type: ignore
     parse_datapoint_json,
 )
 
 
 def test_json():
-    dp = DatapointBool("1ef282ca-a531-43cd-bb4d-1126fadf96a2")
-    json = dp.to_json()
-    assert define_class_name(json) == DatapointBool.__name__
-    dp_from_json = parse_datapoint_json(json)
-    assert dp == dp_from_json
+    dp_bool = DatapointBool("1ef282ca-a531-43cd-bb4d-1126fadf96a2")
+    json = dp_bool.to_json()
+    assert _define_class_name(json) == DatapointBool.__name__
+    assert dp_bool == parse_datapoint_json(json)
+
+    dp_int = DatapointInt("80ee5650-11ab-479a-837b-da07207f0d5c")
+    json = dp_int.to_json()
+    assert _define_class_name(json) == DatapointInt.__name__
+    assert dp_int == parse_datapoint_json(json)
+
+    dp_float = DatapointFloat("1399c9cd-f8d6-4b97-a3b8-2a3c3a014408")
+    json = dp_float.to_json()
+    assert _define_class_name(json) == DatapointFloat.__name__
+    assert dp_float == parse_datapoint_json(json)
+
+    dp_str = DatapointStr("1935ab5b-a16d-4e3b-8deb-d4c5057fa75b")
+    json = dp_str.to_json()
+    assert _define_class_name(json) == DatapointStr.__name__
+    assert dp_str == parse_datapoint_json(json)
 
 
 def test_datapoints_collection():

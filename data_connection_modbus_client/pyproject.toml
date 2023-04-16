@@ -1,0 +1,51 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 80
+
+
+[tool.poe.tasks.update_stubs]
+shell = """rm -rf .venv/typings \
+&& pyright --createstub data_connection
+"""
+
+
+[tool.poetry]
+name = "data-connection-modbus-client"
+version = "0.0.1"
+description = ""
+authors = ["Konstantin.Dudersky <konstantin.dudersky@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "data_connection_modbus_client" }]
+
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+data_connection = "0.0.1"
+pymodbus = "^3.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+poethepoet = "*"
+pytest = "*"
+wemake-python-styleguide = "0.17.0"
+
+
+[tool.pyright]
+pythonPlatform = "Linux"
+pythonVersion = "3.11"
+reportUnnecessaryTypeIgnoreComment = true
+stubPath = '.venv/typings/'
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+log_format = "%(levelname)s: %(asctime)s.%(msecs)03d | %(name)s:%(lineno)d - %(funcName)s\n-> %(message)s"
+log_date_format = "%H:%M:%S"
